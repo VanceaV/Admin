@@ -1,4 +1,4 @@
-package com.smoothstack.repository;
+package com.smoothstack.service;
 
 import java.util.List;
 
@@ -11,14 +11,10 @@ import com.smoothstack.entity.Book;
 
 @Service
 @Transactional
-public class BookRepository {
+public class BookService {
 
 	@Autowired
 	private IBookDao bookDao;
-
-	// public List<Book> getAllBoksWithAtLeastOneCopy(int branchId) {
-	// return bookDao.getAllBooksWithAtLeastOneCopie(branchId);
-	// }
 
 	public Book getById(long id) {
 		return bookDao.getOne(id);

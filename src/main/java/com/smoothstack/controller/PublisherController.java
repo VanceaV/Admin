@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smoothstack.entity.Publisher;
-import com.smoothstack.repository.PublisherRepository;
+import com.smoothstack.service.PublisherService;
 
 @RestController
 @RequestMapping("/lms/administrator")
 public class PublisherController {
 
 	@Autowired
-	private PublisherRepository publisherRepository;
+	private PublisherService publisherRepository;
 
 	@GetMapping("/publishers")
 	public ResponseEntity<List<Publisher>> getAllPublishers() {
@@ -38,15 +38,26 @@ public class PublisherController {
 
 	@PutMapping("/publishers/publisher")
 	public ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisher) {
-		publisherRepository.update(publisher);
+
+		try {
+			publisherRepository.update(publisher);
+		} catch (Exception e) {
+			return new ResponseEntity<Publisher>(HttpStatus.BAD_REQUEST);
+		}
+
 		return new ResponseEntity<Publisher>(HttpStatus.OK);
 	}
 
-	@DeleteMapping("/publishers/publisher{publisherId}")
+	@DeleteMapping("/publishers/{publisherId}")
 	public ResponseEntity<Publisher> deletePublisher(@PathVariable long publisherId) {
-		publisherRepository.delete(publisherId);
+
+		try {
+			publisherRepository.delete(publisherId);
+		} catch (Exception e) {
+			return new ResponseEntity<Publisher>(HttpStatus.BAD_REQUEST);
+
+		}
 		return new ResponseEntity<Publisher>(HttpStatus.ACCEPTED);
 	}
-	
-}
 
+}

@@ -1,4 +1,4 @@
-package com.smoothstack.repository;
+package com.smoothstack.service;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ import com.smoothstack.entity.BookLoans;
 
 @Service
 @Transactional
-public class BookLoansRepository {
+public class BookLoansService {
 
 	@Autowired
 	private IBookLoansDao bookLoansDao;
@@ -48,8 +48,15 @@ public class BookLoansRepository {
 		bookLoansDao.save(bookLoans);
 	}
 
-	public void delete(long bookId, long branchId, long cardNo) {
-		bookLoansDao.delete(bookId, branchId, cardNo);
+	public ResponseEntity<BookLoans> delete(long bookId, long branchId, long cardNo) {
+
+		try {
+			bookLoansDao.delete(bookId, branchId, cardNo);
+		} catch (Exception e) {
+			return new ResponseEntity<BookLoans>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<BookLoans>(HttpStatus.OK);
+
 	}
 
 	public ResponseEntity<BookLoans> create(long bookId, long branchId, long cardNo, String out, String due) {

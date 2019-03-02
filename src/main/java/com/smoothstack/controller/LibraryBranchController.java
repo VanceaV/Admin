@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smoothstack.entity.LibraryBranch;
-import com.smoothstack.repository.LibraryBranchRepository;
+import com.smoothstack.service.LibraryBranchService;
 
 @RestController
 @RequestMapping("/lms/administrator")
 public class LibraryBranchController {
 
 	@Autowired
-	private LibraryBranchRepository libraryBranchRepository;
+	private LibraryBranchService libraryBranchRepository;
 
 	@GetMapping("/libraryBranches")
 	public ResponseEntity<List<LibraryBranch>> getAllLibraryBranches() {
@@ -38,16 +38,24 @@ public class LibraryBranchController {
 
 	@PutMapping("/libraryBranches/libraryBranch")
 	public ResponseEntity<LibraryBranch> updateLibraryBranch(@RequestBody LibraryBranch libraryBranch) {
-		libraryBranchRepository.update(libraryBranch);
+
+		try {
+			libraryBranchRepository.update(libraryBranch);
+		} catch (Exception e) {
+			return new ResponseEntity<LibraryBranch>(HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<LibraryBranch>(HttpStatus.OK);
 	}
 
-	@DeleteMapping("/libraryBranches/libraryBranch/{libraryBranchId}")
+	@DeleteMapping("/libraryBranches/{libraryBranchId}")
 	public ResponseEntity<LibraryBranch> deleteLibraryBranch(@PathVariable long libraryBranchId) {
-		libraryBranchRepository.delete(libraryBranchId);
-		return new ResponseEntity<LibraryBranch>(HttpStatus.ACCEPTED);
-		
-	}
-	
 
+		try {
+			libraryBranchRepository.delete(libraryBranchId);
+		} catch (Exception e) {
+			return new ResponseEntity<LibraryBranch>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<LibraryBranch>(HttpStatus.ACCEPTED);
+
+	}
 }

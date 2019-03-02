@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
- 
+
 import com.smoothstack.entity.Borrower;
-import com.smoothstack.repository.BorrowerRepository;
+import com.smoothstack.service.BorrowerService;
 
 @RestController
 @RequestMapping("/lms/administrator")
 public class BorrowerController {
 
 	@Autowired
-	private BorrowerRepository borrowerRepository;
+	private BorrowerService borrowerRepository;
 
 	@GetMapping("/borrowers")
 	public ResponseEntity<List<Borrower>> getAllBorrowers() {
@@ -39,12 +39,24 @@ public class BorrowerController {
 	@PutMapping("/borrowers/borrower")
 	public ResponseEntity<Borrower> updateBorrower(@RequestBody Borrower borrower) {
 		borrowerRepository.update(borrower);
+
+		try {
+			borrowerRepository.update(borrower);
+		} catch (Exception e) {
+			return new ResponseEntity<Borrower>(HttpStatus.BAD_REQUEST);
+		}
+
 		return new ResponseEntity<Borrower>(HttpStatus.OK);
 	}
 
-	@DeleteMapping("/borrowers/borrower{borrowerId}")
+	@DeleteMapping("/borrowers/{borrowerId}")
 	public ResponseEntity<Borrower> deleteBorrower(@PathVariable long borrowerId) {
-		borrowerRepository.delete(borrowerId);
+
+		try {
+			borrowerRepository.delete(borrowerId);
+		} catch (Exception e) {
+			return new ResponseEntity<Borrower>(HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<Borrower>(HttpStatus.ACCEPTED);
 	}
 }

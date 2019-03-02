@@ -1,4 +1,4 @@
-package com.smoothstack.repository;
+package com.smoothstack.service;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.smoothstack.entity.Borrower;
 
 @Service
 @Transactional
-public class BorrowerRepository {
+public class BorrowerService {
 
 	@Autowired
 	private IBorrowerDao borrowerDao;

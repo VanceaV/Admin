@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smoothstack.entity.Book;
-import com.smoothstack.repository.BookRepository;
+import com.smoothstack.service.BookService;
 
 @RestController
 @RequestMapping("/lms/administrator")
 public class BookController {
 
 	@Autowired
-	private BookRepository bookRepository;
+	private BookService bookRepository;
 
 	@GetMapping("/books")
 	public ResponseEntity<List<Book>> getAllBooks() {
@@ -38,15 +38,25 @@ public class BookController {
 
 	@PutMapping("/books/book")
 	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
-		bookRepository.update(book);
+
+		try {
+			bookRepository.update(book);
+		} catch (Exception e) {
+			return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<Book>(HttpStatus.OK);
 	}
 
-	@DeleteMapping("/books/book/{bookId}")
+	@DeleteMapping("/books/{bookId}")
 	public ResponseEntity<Book> deleteBook(@PathVariable long bookId) {
+
+		try {
+			bookRepository.delete(bookId);
+		} catch (Exception e) {
+			return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		}
 		bookRepository.delete(bookId);
 		return new ResponseEntity<Book>(HttpStatus.ACCEPTED);
 	}
-	
 
 }

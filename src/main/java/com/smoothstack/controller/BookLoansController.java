@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smoothstack.entity.BookLoans;
-
-import com.smoothstack.repository.BookLoansRepository;
+import com.smoothstack.service.BookLoansService;
 
 @RestController
 @RequestMapping("/lms")
 public class BookLoansController {
 
 	@Autowired
-	private BookLoansRepository bookLoansRepository;
+	private BookLoansService bookLoansRepository;
 
 	
 

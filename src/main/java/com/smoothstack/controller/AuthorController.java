@@ -15,38 +15,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smoothstack.entity.Author;
-import com.smoothstack.repository.AuthorRepository;
+import com.smoothstack.service.AuthorService;
 
 @RestController
 @RequestMapping("/lms/administrator")
-public class AuthorController  {
+public class AuthorController {
 
 	@Autowired
-	private AuthorRepository authorRepository;
+	private AuthorService authorService;
 
-	@GetMapping("/authors")
+	@GetMapping(value = "/authors", produces = { "application/json", "application/xml" })
 	public ResponseEntity<List<Author>> getAllAuthors() {
-		List<Author> list = authorRepository.getAll();
+		List<Author> list = authorService.getAll();
 		return new ResponseEntity<List<Author>>(list, HttpStatus.OK);
 	}
 
 	@PostMapping("/authors/author")
 	public ResponseEntity<Author> addAuthor(@RequestBody Author author) {
-		authorRepository.create(author);
+		authorService.create(author);
 		return new ResponseEntity<Author>(HttpStatus.CREATED);
 	}
 
 	@PutMapping("/authors/author")
 	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
-		authorRepository.update(author);
+
+		try {
+			authorService.update(author);
+		} catch (Exception e) {
+			return new ResponseEntity<Author>(HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<Author>(HttpStatus.OK);
 
 	}
 
-	@DeleteMapping("/authors/author{authorId}")
+	@DeleteMapping("/authors/{authorId}")
 	public ResponseEntity<Author> deleteAuthor(@PathVariable long authorId) {
-		authorRepository.delete(authorId);
+		try {
+			authorService.delete(authorId);
+		} catch (Exception e) {
+
+			ResponseEntity<Author> re = new ResponseEntity<Author>(HttpStatus.BAD_REQUEST);
+
+			return re;
+		}
 		return new ResponseEntity<Author>(HttpStatus.ACCEPTED);
 	}
-
 }

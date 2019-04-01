@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,20 +24,23 @@ public class AuthorController {
 
 	@Autowired
 	private AuthorService authorService;
-
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/authors", produces = { "application/json", "application/xml" })
 	public ResponseEntity<List<Author>> getAllAuthors() {
 		List<Author> list = authorService.getAll();
 		return new ResponseEntity<List<Author>>(list, HttpStatus.OK);
 	}
-
-	@PostMapping("/authors/author")
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping("/author")
 	public ResponseEntity<Author> addAuthor(@RequestBody Author author) {
 		authorService.create(author);
 		return new ResponseEntity<Author>(HttpStatus.CREATED);
 	}
-
-	@PutMapping("/authors/author")
+	
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PutMapping("/author")
 	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
 
 		try {
@@ -47,11 +51,11 @@ public class AuthorController {
 		return new ResponseEntity<Author>(HttpStatus.OK);
 
 	}
-
-	@DeleteMapping("/authors/{authorId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	@DeleteMapping("/author/{authorId}")
 	public ResponseEntity<Author> deleteAuthor(@PathVariable long authorId) {
 		try {
-			authorService.delete(authorId);
+			authorService.getById(authorId);
 		} catch (Exception e) {
 
 			ResponseEntity<Author> re = new ResponseEntity<Author>(HttpStatus.BAD_REQUEST);
@@ -59,5 +63,15 @@ public class AuthorController {
 			return re;
 		}
 		return new ResponseEntity<Author>(HttpStatus.ACCEPTED);
+	}
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/author /{authorId}")
+	public ResponseEntity<Author> getAuthorByID(@PathVariable long authorId) {
+		try {
+			Author  author = authorService.getById(authorId);
+			return new ResponseEntity<Author>(author,HttpStatus.OK);
+		} catch (Exception e) {
+			return  new ResponseEntity<Author>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 }

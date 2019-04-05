@@ -15,11 +15,18 @@ node {
    }
    
    stage("Quality Gate Check"){
-          timeout(time: 1, unit: 'MINUTES') {
+          timeout(time: 4, unit: 'SECONDS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
               }
           }
-      }        
+      } 
+   
+    dir('target') {
+        stage("Archive"){
+         archiveArtifacts '*.jar'
+        }
+    }
+    
 }

@@ -35,7 +35,7 @@ node {
     
     
     stage('JenkinsToAWSDeploy'){
-    sh label: '', script: 'aws cloudformation create-stack --stack-name JenkinsToAWSDeploy --template-url https://s3.amazonaws.com/vladimirvancea/Temp.yml --parameters ParameterKey=KeyName,ParameterValue=VV ParameterKey=VPCSelection,ParameterValue=Default'
+    sh label: '', script: 'aws --region us-east-1 cloudformation create-stack --stack-name JenkinsToAWSDeploy --template-url https://s3.amazonaws.com/vladimirvancea/Temp.yml --parameters ParameterKey=KeyName,ParameterValue=VV ParameterKey=VPCSelection,ParameterValue=Default'
     
     }
     

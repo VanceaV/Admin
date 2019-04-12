@@ -1,6 +1,6 @@
 node {
    stage("Code Check out"){
-       git 'https://github.com/VanceaV/Admin.git'
+       git 'https://github.com/VanceaV/llmmss.git'
    }
    stage("Compile-Package"){
        sh script: 'mvn clean install'

@@ -11,7 +11,7 @@ stage('JenkinsToAWSDeploy'){
                  def identity=awsIdentity();//Log AWS credentials
                  
                  
-                 sh label: '', script: 'sudo ansible --version'
+                 sh label: '', script: 'ansible --version'
 
                 
             }

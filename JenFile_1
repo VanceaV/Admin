@@ -11,9 +11,13 @@ stage('JenkinsToAWSDeploy'){
                  def identity=awsIdentity();//Log AWS credentials
                  
                  
+                dir("/var/lib/jenkins/workspace/CI_JOB"){
                 
+                 sh label: '', script: 'ansible-playbook provision.yml'
+                
+                }
                  
-                  sh label: '', script: 'pwd & ls'
+                 
 
                 
             }

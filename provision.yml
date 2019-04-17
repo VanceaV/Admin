@@ -1,1 +1,12 @@
-
+- hosts: localhost 
+  tasks:
+    - name: Lms_Admin ec2
+      cloudformation:
+        stack_name: 'JenkinsToAWSDeploy'
+        state: present
+        region: us-east-1
+        disable_rollback: true
+        template_url: https://s3.amazonaws.com/vladimirvancea/Temp.yml
+        template_parameters:
+          KeyName: ubuntuKey
+          VPCSelection: Default

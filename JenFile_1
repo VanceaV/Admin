@@ -1,6 +1,6 @@
 
 
-
+node{
 
 stage('JenkinsToAWSDeploy'){
     
@@ -17,7 +17,7 @@ stage('JenkinsToAWSDeploy'){
             }
 
     
-    
+    }
     
     
 }

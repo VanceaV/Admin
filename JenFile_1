@@ -9,7 +9,7 @@ stage('JenkinsToAWSDeploy'){
                  def identity=awsIdentity();//Log AWS credentials
      
                  git 'https://github.com/VanceaV/A.git' 
-                 sh label: '', script: 'ansible-playbook -i localhost, provision.yml'
+                 sh label: '', script: 'ansible-playbook provision.yml'
                   
             }
     } 

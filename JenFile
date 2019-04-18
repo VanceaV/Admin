@@ -4,7 +4,6 @@ node {
    }
    stage("Compile-Package"){
        sh script: 'mvn clean install'
-       sh script: 'cp provision.yml target/'
    }
    
    
